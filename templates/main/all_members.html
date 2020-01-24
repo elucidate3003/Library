@@ -1,0 +1,32 @@
+ {% extends 'base.html' %}
+ {% block content %}
+ <ul>
+ {% for member in members %}
+ <li class="list-group-item my-4 bg-dark rounded">
+ <b><a href="{% url 'profile_info' member.id %}">{{member.user.username|title}}</a></b>
+ </li>
+ {% endfor %}
+ </ul>
+
+ {% if members.has_other_pages %}
+    <ul class="pagination">
+        {% if members.has_previous %}
+            <li><a href="?page={{member.previous_page_number}}">&laquo;</a></li>
+        {% else %}
+            <li class="btn btn-dark disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in members.paginator.page %}
+            {% if members.number == i %}
+                <li><span class="btn btn-dark active">{{i}}</span></li>
+            {% else %}
+            <li><a class="btn btn-dark" href="?page={{i}}">{{i}}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if members.has_next %}
+            <li><a href="?page={{member.next_page_number}}">&raquo;</a></li>
+        {% else %}
+            <li class="btn btn-dark disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+ {% endif %}
+ {% endblock content %}
